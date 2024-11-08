@@ -16,11 +16,14 @@ public class Fenetre1 extends JFrame {
     JRadioButton bleu = new JRadioButton("Bleu");
     JRadioButton rouge = new JRadioButton("Rouge");
     JRadioButton noir = new JRadioButton("Noir");
+
+    JMenu fonts = new JMenu("Fonts");
     
     public Fenetre1(){
         super("Fenetre 1 Menu");
         initMenu();
         initUI();
+        initFont();
         pack();
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -33,6 +36,7 @@ public class Fenetre1 extends JFrame {
         JMenu fichier = new JMenu("Fichier");
         JMenu editer = new JMenu("Editer");
         JMenu aide = new JMenu("Aide");
+        
 
         JMenuItem nouveau = new JMenuItem("Nouveau");
         JMenuItem ouvrir = new JMenuItem("Ouvrir");
@@ -60,6 +64,10 @@ public class Fenetre1 extends JFrame {
         quitter.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, KeyEvent.CTRL_DOWN_MASK));
         quitter.addActionListener(e -> System.exit(0));
         fichier.add(quitter);
+
+        fonts.setMnemonic('F');
+        fonts.addActionListener((e) -> initFont());
+        editer.add(fonts);
 
         menuBar.add(fichier);
         menuBar.add(editer);
@@ -106,6 +114,16 @@ public class Fenetre1 extends JFrame {
     // Getter pour `textArea`
     public JTextArea getTextArea() {
         return textArea;
+    }
+
+    void initFont() {
+        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        String[] fontP = ge.getAvailableFontFamilyNames();
+        for (String fontName : fontP) {
+            JMenuItem fontItem = new JMenuItem(fontName);
+            fontItem.addActionListener(e -> textArea.setFont(new Font(fontName, Font.PLAIN, 12)));
+            fonts.add(fontItem);
+        }
     }
 
     public static void main(String[] args) {

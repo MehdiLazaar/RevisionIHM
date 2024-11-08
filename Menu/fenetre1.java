@@ -7,7 +7,17 @@ import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
 public class Fenetre1 extends JFrame {
-    Fenetre1(){
+    public JPanel panelPrincipal = new JPanel(new BorderLayout());
+    public JPanel panelGauche = new JPanel();
+    public JPanel panelDroite = new JPanel();
+    public JLabel texte1 = new JLabel("Bonjour");
+    private JTextArea textArea = new JTextArea(3, 20);  // Passée en `private`
+    JLabel texte2 = new JLabel("Choisissez une couleur");
+    JRadioButton bleu = new JRadioButton("Bleu");
+    JRadioButton rouge = new JRadioButton("Rouge");
+    JRadioButton noir = new JRadioButton("Noir");
+    
+    public Fenetre1(){
         super("Fenetre 1 Menu");
         initMenu();
         initUI();
@@ -20,19 +30,16 @@ public class Fenetre1 extends JFrame {
     void initMenu(){
         JMenuBar menuBar = new JMenuBar();
 
-        // Création des menus
         JMenu fichier = new JMenu("Fichier");
         JMenu editer = new JMenu("Editer");
         JMenu aide = new JMenu("Aide");
 
-        // Création des éléments de menu
         JMenuItem nouveau = new JMenuItem("Nouveau");
         JMenuItem ouvrir = new JMenuItem("Ouvrir");
         JMenuItem enregistrer = new JMenuItem("Enregistrer");
         JMenuItem enregistrerSous = new JMenuItem("Enregistrer sous");
         JMenuItem quitter = new JMenuItem("Quitter");
 
-        // Définition des raccourcis clavier et mnémoniques
         nouveau.setMnemonic('N');
         nouveau.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, KeyEvent.CTRL_DOWN_MASK));
         fichier.add(nouveau);
@@ -54,38 +61,30 @@ public class Fenetre1 extends JFrame {
         quitter.addActionListener(e -> System.exit(0));
         fichier.add(quitter);
 
-        // Ajout des menus à la barre de menu
         menuBar.add(fichier);
         menuBar.add(editer);
         menuBar.add(aide);
         
-        // Affecter la barre de menu à la fenêtre
         setJMenuBar(menuBar);
     }
 
     void initUI(){
-        JPanel panelPrincipal = new JPanel(new BorderLayout());
-
-        // Panel gauche avec zone de texte
-        JPanel panelGauche = new JPanel();
         panelGauche.setLayout(new BoxLayout(panelGauche, BoxLayout.Y_AXIS));
-        JLabel texte1 = new JLabel("Bonjour");
-        JTextArea textArea = new JTextArea(3, 20);
+        
         textArea.setLineWrap(true);
         textArea.setWrapStyleWord(true);
         JScrollPane scrollPaneTexteArea = new JScrollPane(textArea);
         panelGauche.add(texte1);
-        panelGauche.add(scrollPaneTexteArea);  // Utiliser scrollPane pour textArea
+        panelGauche.add(scrollPaneTexteArea);
 
-        // Panel droite avec boutons radio
-        JPanel panelDroite = new JPanel();
         panelDroite.setLayout(new BoxLayout(panelDroite, BoxLayout.Y_AXIS));
-        JLabel texte2 = new JLabel("Choisissez une couleur");
-        JRadioButton bleu = new JRadioButton("Bleu");
-        JRadioButton rouge = new JRadioButton("Rouge");
-        JRadioButton noir = new JRadioButton("Noir");
-
         panelDroite.setBorder(new TitledBorder(new LineBorder(Color.BLACK, 2), "Couleur"));
+
+        // Créer les actions pour chaque couleur
+        bleu.addActionListener(new ActionCouleur(this, Color.BLUE));
+        rouge.addActionListener(new ActionCouleur(this, Color.RED));
+        noir.addActionListener(new ActionCouleur(this, Color.BLACK));
+
         ButtonGroup group = new ButtonGroup();
         group.add(bleu);
         group.add(rouge);
@@ -96,15 +95,17 @@ public class Fenetre1 extends JFrame {
         panelDroite.add(rouge);
         panelDroite.add(noir);
 
-        // SplitPane pour diviser gauche/droite
         JSplitPane splitPaneMilieu = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, panelGauche, panelDroite);
-        splitPaneMilieu.setDividerLocation(250); // Ajustez la position initiale du séparateur
+        splitPaneMilieu.setDividerLocation(250);
 
-        // Ajouter le splitPane au centre de panelPrincipal
         panelPrincipal.add(splitPaneMilieu, BorderLayout.CENTER);
 
-        // Ajouter panelPrincipal à la fenêtre
         add(panelPrincipal);
+    }
+
+    // Getter pour `textArea`
+    public JTextArea getTextArea() {
+        return textArea;
     }
 
     public static void main(String[] args) {

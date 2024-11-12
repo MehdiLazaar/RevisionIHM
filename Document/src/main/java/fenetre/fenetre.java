@@ -39,6 +39,7 @@ public class fenetre extends JFrame {
 
         JMenu fichier = new JMenu("Fichier");
         JMenu editer = new JMenu("Editer");
+        JMenu traduireFichier = new JMenu("Traduire fichier");
         JMenu aide = new JMenu("Aide");
         
 
@@ -46,6 +47,9 @@ public class fenetre extends JFrame {
         JMenuItem ouvrir = new JMenuItem("Ouvrir");
         JMenuItem enregistrer = new JMenuItem("Enregistrer");
         JMenuItem enregistrerSous = new JMenuItem("Enregistrer sous");
+        JMenuItem francais = new JMenuItem("Francais");
+        JMenuItem anglais = new JMenuItem("Anglais");
+        JMenuItem arabe = new JMenuItem("Arabe");
         JMenuItem quitter = new JMenuItem("Quitter");
 
         nouveau.setMnemonic('N');
@@ -73,8 +77,16 @@ public class fenetre extends JFrame {
         fonts.addActionListener((e) -> initFont());
         editer.add(fonts);
 
+        francais.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F, KeyEvent.CTRL_DOWN_MASK));
+        traduireFichier.add(francais);
+        anglais.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E,KeyEvent.CTRL_DOWN_MASK));
+        traduireFichier.add(anglais);
+        arabe.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R,KeyEvent.CTRL_DOWN_MASK));
+        traduireFichier.add(arabe);
+
         menuBar.add(fichier);
         menuBar.add(editer);
+        menuBar.add(traduireFichier);
         menuBar.add(aide);
         
         setJMenuBar(menuBar);
